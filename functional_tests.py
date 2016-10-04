@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 class NewVistorTest(unittest.TestCase):
 
@@ -19,13 +24,13 @@ class NewVistorTest(unittest.TestCase):
 
         # 她注意到网页的标题和头部都包含 “ To-Do ” 这个词
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_elements_by_tag_name('h1').text
+        header_text = self.browser.find_elements_by_tag_name('h1')[0].text
         self.assertIn('To-Do', header_text)
 
         # 应用邀请她输入一个待办事项
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
-                inputbox.get_attr('placeholder'),
+                inputbox.get_attribute('placeholder'),
                 'Enter a to-do item'
             )
 
@@ -40,7 +45,8 @@ class NewVistorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-                any( row.text == '1: Buy peacock feathers' for row in rows)
+                any( row.text == '1: Buy peacock feathers' for row in rows),
+                "New to-do item did not appear in table"
             )
 
         # 页面中又显示了一个文本框，可以输入其他的待办事项
