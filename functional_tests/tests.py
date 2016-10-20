@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
-from django.test import LiveServerTestCase
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
@@ -8,7 +9,7 @@ import unittest
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-class NewVistorTest(LiveServerTestCase):
+class NewVistorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -26,7 +27,7 @@ class NewVistorTest(LiveServerTestCase):
         self.assertAlmostEqual(
                 inputbox.location['x'] + inputbox.size['width']/2,
                 512,
-                delta=5
+                delta=6
             )
 
     def check_for_row_in_list_table(self, row_text):
